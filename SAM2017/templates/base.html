@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static "img/favicon.ico" %}">
+
+    <title>{% block head_title %}SAM2017{% endblock %}</title>
+
+    {% include "head_css.html" %}
+
+    <style>
+    {% block style %}
+
+    {% endblock %}
+    </style>
+  </head>
+
+  <body class="min-body-height">
+    {% include "navbar.html" %}
+    <div class="container" style="padding-top:0;">
+        {% block jumbotron %}
+        {% endblock %}
+        {% block content %}
+
+        {% endblock %}
+    </div> <!-- /container -->
+
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted text-align-center">Created by Uncaught Exception Team &copy; 2015 | Copyright All Rights Reserved</p>
+      </div>
+    </footer>
+
+    {% include "javascript.html" %}
+
+  </body>
+</html>

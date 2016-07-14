@@ -1,0 +1,55 @@
+<!-- Modal -->
+<div class="modal fade" id="subModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-app="submissionsApp">
+  <span class="hide" id="url"></span>
+  <div class="modal-dialog" role="document" ng-controller="SubmissionController as subCtr">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Submission History</h4>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-align-center">Date</th>
+                                <th class="text-align-center">Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="submission in subCtr.submissions">
+                                <td class="text-align-center">{$ submission.fields.created | date:'medium' $}</td>
+                                <td class="text-align-center"><a href="{$ subCtr.media $}{$ submission.fields.file $}" target="_blank"><span class="glyphicon glyphicon-download" aria-hidden="true"></span></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+      {% if hide_to_author %}
+      <div class="modal-footer">
+          <form enctype="multipart/form-data" name="submissionForm" ng-submit="subCtr.submitFile()">{% csrf_token %}
+            <div class="row">
+                <div class="col-sm-9">
+                    <p>
+                        <input file-model="subCtr.file" class="form-control" id="id_file" name="file" type="file" required>
+                    </p>
+                </div>
+                <div class="col-sm-3">
+                    <p>
+                        <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-open-file" aria-hidden="true"></span> Submit</button>
+                    </p>
+                </div>
+            </div>
+          </form>
+
+          <div id="msg-box" class="alert alert-danger custom-alert text-left" role="alert"></div>
+      </div>
+      {% endif %}
+    <button id="getSubmissionsBtn" type="button" class="btn btn-primary hide" ng-click="subCtr.getSubmissions()"></button>
+    </div>
+  </div>
+</div>

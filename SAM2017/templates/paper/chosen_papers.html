@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <!-- Start dialog box -->
+            <div class="modal fade" id="reviewed" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Review</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <span class="review">
+
+                            </span>
+
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-default btn-ok" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <!-- End dialog bog -->
+
+    <div class="row">
+        <div class="col-sm-10 col-lg-offset-1">
+            <h2 class="main-title text-align-center">Chosen papers</h2>
+            <hr />
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Submitter</th>
+                                <th>Authors</th>
+                                <th>Download</th>
+                                <th>Review paper</th>
+                                <th>Final rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in reviewed_papers %}
+                                <tr>
+                                    <td>{{ obj.paper.title }}</td>
+                                    <td>{{ obj.paper.submitter }}</td>
+                                    <td>{{ obj.paper.list_of_authors }}</td>
+                                    <td>
+                                        <a href="{{ obj.paper.file.url }}" ><span class="glyphicon glyphicon glyphicon-download" aria-hidden="true"></span></a>
+                                    </td>
+                                    <td>
+                                        {% if obj.has_conflict %}
+                                            <a href=" {% url 'rate_paper_pcm:resolve_paper_conflict' obj.paper.id %}" class="btn btn-info btn-danger btn-block">Resolve conflict</a>
+
+                                        {% else %}
+                                            Reviewed
+                                        {% endif %}
+                                     </td>
+                                    <td>
+                                        {% ifequal obj.paper.final_rating None  %}
+                                            Not rated
+                                        {% else %}
+                                            {% ifequal obj.paper.final_rating 0 %}
+                                             <span style="color:red;">Rejected</span>
+
+                                            {% endifequal %}
+
+                                            {% ifequal obj.paper.final_rating 1 %}
+                                             <span style="color:green;">Accepted</span>
+
+                                            {% endifequal%}
+
+                                            {% ifequal obj.paper.final_rating 2 %}
+                                              <span style="color:lightgreen;">Accepted with modifications</span>
+
+                                            {% endifequal %}
+                                        {% endifequal %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            {% for obj in assigned_not_reviewed %}
+                                <tr>
+                                    <td>{{ obj.paper.title }}</td>
+                                    <td>{{ obj.paper.submitter }}</td>
+                                    <td>{{ obj.paper.list_of_authors }}</td>
+                                    <td>
+                                        <a href="{{ obj.paper.file.url }}" >
+                                            <span class="glyphicon glyphicon glyphicon-download" aria-hidden="true"></span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a button class="btn btn-primary" href="/rate_paper_pcm/paper/{{ obj.paper.id }}/">Review</a>
+                                    </td>
+                                    <td>Not rated</td>
+                                </tr>
+                            {% endfor %}
+                        {% for obj in chosen_papers %}
+                            <tr>
+                                <td>{{ obj.paper.title }}</td>
+                                <td>{{ obj.paper.submitter }}</td>
+                                <td>{{ obj.paper.list_of_authors }}</td>
+                                <td>Not assigned</td>
+                                <td>Not authorized</td>
+                                <td>Not authorized</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+
+<script>
+    $('#reviewed').on('show.bs.modal', function(e) {
+        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+        $('.delete').html('<strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+
+        $(this).find('.btn-ok').attr('review', $(e.relatedTarget).data('review'));
+        $('.review').html($(this).find('.btn-ok').attr('review'));
+    });
+</script>
+
+{% endblock %}

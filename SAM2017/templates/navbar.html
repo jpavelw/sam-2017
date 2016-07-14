@@ -1,0 +1,55 @@
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'user_profile:user_profile' %}" class="navbar-brand"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> SAM2017</a></li>
+            {% if show %}
+
+              {% if role == 'AUT' or role == 'PCM' %}
+                <li class="{% if submit %}active{% endif %}"><a href="{% url "paper:submit" %}"><span class="glyphicon glyphicon-open-file" aria-hidden="true"></span> Submit Paper</a></li>
+                <li class="{% if list_papers %}active{% endif %}"><a href="{% url "paper:paper_listing" %}"><span class="glyphicon glyphicon-level-up" aria-hidden="true"></span> My Papers</a></li>
+              {% endif %}
+
+              {% if role == 'PCM' %}
+                <li class="{% if choose %}active{% endif %}"><a href="{% url "paper:choose_paper" %}"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Choose Paper</a></li>
+                <li class="{% if review_paper_pcm %}active{% endif %}"><a href=" {%  url "paper:chosen_papers"  %}"><span class="glyphicon glyphicon-file"></span> Papers</a></li>
+              {% endif %}
+
+               {% if role == 'PCC' %}
+                <li class="{% if assign %}active{% endif %}"><a href="{% url "paper:assign_paper" %}"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Assign Paper</a></li>
+                <li class="{% if list_papers %}active{% endif %}"><a href="{% url "paper:paper_listing" %}"><span class="glyphicon glyphicon-level-up" aria-hidden="true"></span> Submitted Papers</a></li>
+                <li class="{% if reviewed %}active{% endif %}"><a href="{% url "rate_paper_pcm:reviewed_papers" %}"></span> Rate paper</a></li>
+              {% endif %}
+
+              <li class="{% if notifications %}active{% endif %}"><a href="{% url 'notification:notification' %}"><span class="glyphicon glyphicon-level-up" aria-hidden="true"></span> Notifications [ {{ num_notification }} ]</a></li>
+            {% endif %}
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            {% if show %}
+                <li><a href="{% url 'log_out' %}">{{ name }} - {{ user_role }} | Log Out <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
+            {% else %}
+                <li><a href="{{ link }}">{{ link_name }} <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a></li>
+            {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    {% if messages %}
+        <b class="messages">
+            {% for msg in messages %}
+                <div class="alert alert-{{msg.level_tag}}" role="alert">
+                    {{msg.message}}
+                    <a data-dismiss="alert" aria-hidden="true" class="close glyphicon glyphicon-remove"></a>
+                </div>
+            {% endfor %}</b>
+    {% endif %}

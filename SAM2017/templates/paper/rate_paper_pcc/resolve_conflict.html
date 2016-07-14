@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+	<h6>Resolving conflict for {{paper_title}}</h6>
+            <h2>Other paper reviews</h2>
+
+	<div class="row">"
+    {% for obj in paper_reviews %}
+        <div class="col-md-6 col-md-offset-1">
+            <h4 >Reviewer: {{ obj.pcm.first_name }} </h4>
+            <p class="img-thumbnail col-md-12" style="padding:3%;">{{ obj.review }}</p>
+        </div>
+        <div class="col-md-2">
+            <h4>Rating</h4>
+            <p class="col-md-12" style="padding:3%;">
+                {% ifequal obj.decision 0 %}
+                    Reviewer <span style="color:red;">rejected</span> the paper.
+                {% endifequal %}
+                {% ifequal obj.decision 1 %}
+                    Reviewer <span style="color:green;">accepted</span> the paper.
+                {% endifequal%}
+                {% ifequal obj.decision 2 %}
+                    Reviewer <span style="color:lightgreen;">accepted with modifications</span> the paper.
+                {% endifequal %}
+            </p>
+        </div>
+    {% endfor %}
+    <div class="col-md-8">
+			<form method="post" action="">
+				{% csrf_token %}
+				{{review_form.as_p}}
+				<p class="text-align-center"><button class="btn btn-primary" type="submit">Submit review</button></p>
+			</form>
+		</div>
+	</div>
+{% endblock %}

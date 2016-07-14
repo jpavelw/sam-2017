@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6 col-lg-offset-3">
+            <h2 class="main-title text-align-center">Submit Paper</h2>
+            <hr />
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <p class="text-align-center"><button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-open-file" aria-hidden="true"></span> {{ btn_title }}</button></p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

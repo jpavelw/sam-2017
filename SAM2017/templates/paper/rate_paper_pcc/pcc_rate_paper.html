@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+            <div class="paper-information" style="margin-bottom:30px;">
+                <h3>Paper author:{{ paper_author}}</h3>
+                <h3>Paper title:{{ paper_title}}</h3>
+            </div>
+            {% if paper_reviews %}
+                {% for obj in paper_reviews %}
+                    <div class="col-md-6 col-md-offset-1">
+                        <h4 >Reviewer: {{ obj.pcm.first_name }} </h4>
+                        <p class="img-thumbnail col-md-12" style="padding:3%;">{{ obj.review }}</p>
+                    </div>
+                    <div class="col-md-2">
+                        <h4>Rating</h4>
+                        <p class="col-md-12" style="padding:3%;">
+                            {% ifequal obj.decision 0 %}
+                             Reviewer <span style="color:red;">rejected</span> the paper.
+                            {% endifequal %}
+                            {% ifequal obj.decision 1 %}
+                             Reviewer <span style="color:green;">accepted</span> the paper.
+                            {% endifequal%}
+                            {% ifequal obj.decision 2 %}
+                             Reviewer <span style="color:lightgreen;">accepted with modifications</span> the paper.
+                            {% endifequal %}
+                        </p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                        <h2>There has not been any paper reviewed.</h2>
+            {% endif %}
+    </div>
+    <div class="row" style="margin-bottom:20px;">
+        <div class="col-md-4 col-md-offset-1">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button class="btn btn-primary" name="form-type" value="rate_form" type="submit">Rate Paper</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <div style="margin-top:80px">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <h4>Paper has conflict?</h4>
+                    <button class="btn btn-danger" name="form-type" value="issue_form" type="submit">Issue paper review conflict</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

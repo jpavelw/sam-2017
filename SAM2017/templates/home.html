@@ -1,0 +1,16 @@
+    {% extends "base.html" %}
+    {% load staticfiles %}
+    {% block head_title %}{{ Welcome }} | {{ block.super }}{% endblock %}
+
+    {% block content %}
+        <div class="row">
+            <h2 class="main-title">Log In</h2>
+            <div class="col-md-4">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ login_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Log In <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>
+                </form>
+            </div>
+        </div>
+    {% endblock %}

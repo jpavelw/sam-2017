@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block head_title %}{{ Profile }} | {{ block.super }}{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="main-title text-align-center">Notifications</h2>
+            <hr />
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sender</th>
+                            <th>Created at</th>
+                            <th>Message</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for notification in notifications_messages %}
+                            <tr>
+                                <td>
+                                    {{ notification.sender.first_name }}
+                                    {{ notification.sender.middle_initial }}
+                                    {{ notification.sender.last_name }}
+                                </td>
+                                <td>
+                                    {{ notification.timestamp }}
+                                </td>
+                                <td>
+                                    {{ notification.message }}
+                                </td>
+                                <td>
+                                    <a href="{% url 'notification:delete_notification' notification.id %}">
+                                        <span class="glyphicon glyphicon-remove delete-bottom"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

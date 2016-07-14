@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6 col-lg-offset-3">
+            <h2 class="main-title text-align-center">Detail</h2>
+            <hr />
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="hidden" name="pk" value="{{ pk }}">
+                {{ form.as_p }}
+                <p class="text-align-center"><button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save</button></p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

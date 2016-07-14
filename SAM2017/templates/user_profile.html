@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block head_title %}{{ Profile }} | {{ block.super }}{% endblock %}
+
+{% block content %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Conference Information
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <td>
+                        <span class="bold">Workshop name:</span>
+                    </td>
+                    <td>
+                        Software Architecture Mining
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="bold">Time:</span>
+                    </td>
+                    <td>
+                        6:30 PM
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="bold">Location:</span>
+                    </td>
+                    <td>
+                        Central Park, N.Y.
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<h4><b>Paper to review:</b> {{paper.title}}</h4><hr>
+			<form method="post" action="">
+				{% csrf_token %}
+
+				{{paper_title}}
+				{{review_form.as_p}}
+				<p class="text-align-center"><button class="btn btn-primary" type="submit">Submit review</button></p>
+			</form>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="main-title text-align-center">Reviewed Papers</h2>
+            <hr />
+            <div class="table-responsive">
+            {% if reviewed_papers %}
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Submitter</th>
+                            <th>Authors</th>
+                            <th>Contact</th>
+                            <th>Reviews</th>
+                            <th >Rate paper</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p,r in reviewed_papers %}
+                            <tr>
+                                <td>{{ p.title }}</td>
+                                <td>{{ p.submitter.first_name }} {{ paper.submitter.last_name }}</td>
+                                <td>{{ p.list_of_authors }}</td>
+                                <td>{{ p.get_contact }}</td>
+                                <td>{{ r}}</td>
+                                <td>
+                                    {% if p.has_conflict %}
+                                        Conflict is being resolved
+                                    {% else %}
+                                        {% if p.final_rating == 1 or p.final_rating == 2 or p.final_rating == 0 %}Rated
+                                        {% else %}
+                                            {% ifequal r 3 %}
+                                                <a class="btn btn-block btn-primary" href="{% url "rate_paper_pcm:pcc_rate_paper" p.id %}">Rate paper</a></td>
+                                                {% else %}
+                                                    Missing review/s
+                                            {% endifequal %}
+                                        {% endif %}
+                                    {% endif %}
+                            </tr>
+                        {% endfor %}
+                        {% for p in not_reviewed_papers %}
+                            <tr>
+                            <td>{{ p.title }}</td>
+                                <td>{{ p.submitter.first_name }} {{ paper.submitter.last_name }}</td>
+                                <td>{{ p.list_of_authors }}</td>
+                                <td>{{ p.get_contact }}</td>
+                                <td>No reviews</td>
+                                <td>Cannot rate </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+               {% else %}
+                        <h2>There has not been any paper reviewed.</h2>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
